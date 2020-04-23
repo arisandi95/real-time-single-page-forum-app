@@ -41,11 +41,11 @@ class User extends Authenticatable
 
     public function questions()
     {
-        $this->hasMany(Question::class);
+        return $this->hasMany(Question::class);
     }
 
     public function replies()
     {
-        $this->hasMany(Reply::class);
+        return $this->hasMany(Reply::class);
     }
 }
