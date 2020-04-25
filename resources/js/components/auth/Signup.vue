@@ -1,0 +1,87 @@
+<template>
+    <v-form
+        @submit.prevent="signup"
+        lazy-validation
+    >
+
+        <v-text-field
+            v-model="form.name"
+            label="Name"
+            required
+            type="text"
+        ></v-text-field>
+        <span class="red--text" v-if="errors.name"> {{errors.name[0]}} </span>
+
+        <v-text-field
+            v-model="form.email"
+            label="E-mail"
+            required
+            type="email"
+        ></v-text-field>
+        <span class="red--text" v-if="errors.email"> {{errors.email[0]}} </span>
+
+
+        <v-text-field
+            v-model="form.password"
+            label="Password"
+            required
+            type="password"
+        ></v-text-field>
+        <span class="red--text" v-if="errors.password"> {{errors.password[0]}} </span>
+
+
+        <v-text-field
+            v-model="form.password_confirmation"
+            label="Password Confirmation"
+            required
+            type="password"
+        ></v-text-field>
+
+
+        <v-btn
+            color="success"
+            class="mr-4"
+            type="submit"
+        >
+            Signup
+        </v-btn>
+
+        <router-link to="/login">
+            <v-btn>Login</v-btn>
+        </router-link>
+
+
+    </v-form>
+</template>
+
+<script>
+    export default{
+        data(){
+            return {
+                form : {
+                    name:null,
+                    email:null,
+                    password:null,
+                    password_confirmation:null
+                },
+                errors : {}
+            }
+        },
+        methods:{
+            signup(){
+                axios.post('/api/auth/signup', this.form)
+                    .then(res => {
+                        User.responseAfterLogin(res)
+                        this.$router.push({name : 'forum'})
+                    })
+                    .catch(error => {
+                        this.errors = error.response.data.errors
+                    });
+            }
+        }
+    }
+</script>
+
+<style>
+
+</style>

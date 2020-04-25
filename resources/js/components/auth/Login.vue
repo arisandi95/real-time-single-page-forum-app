@@ -26,6 +26,10 @@
             Login
         </v-btn>
 
+        <router-link to="/signup">
+            <v-btn>Signup</v-btn>
+        </router-link>
+
     </v-form>
 </template>
 
@@ -42,6 +46,7 @@
         methods:{
             login(){
                 User.login(this.form)
+                this.$router.push({name : 'forum'})
             }
         }
     }

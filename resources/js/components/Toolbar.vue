@@ -41,7 +41,7 @@
                 dense
                 rounded
             >
-                <div v-for="item in items" :key="item.title">
+                <div v-for="item in items" :key="item.title" v-if="item.show">
                     <v-list-item link>
                         <v-list-item-icon>
                             <v-icon>{{ item.icon }}</v-icon>
@@ -58,8 +58,10 @@
             </v-list>
 
             <template v-slot:append>
-                <div class="pa-2">
-                    <v-btn block>Logout</v-btn>
+                <div class="pa-2" v-show="logoutBtn">
+                    <router-link to="/logout">
+                        <v-btn block>Logout</v-btn>
+                    </router-link>
                 </div>
             </template>
 
@@ -70,20 +72,30 @@
 <script>
     export default{
         data: () => ({
+            isLoggedIn : User.loggedIn(),
+            logoutBtn : User.loggedIn(),
             drawer: false,
             group: null,
             items: [
-                { title: 'Forum', icon: 'mdi-forum' , link:'/login'},
-                { title: 'Ask Question', icon: 'mdi-face-agent' , link:'/login'},
-                { title: 'Category', icon: 'mdi-file-table-box-multiple', link:'/login' },
-                { title: 'Login', icon: 'mdi-login' , link:'/login'},
+                { title: 'Forum', icon: 'mdi-forum' , link:'/forum', show: true},
+                { title: 'Ask Question', icon: 'mdi-face-agent' , link:'/ask', show: User.loggedIn()},
+                { title: 'Category', icon: 'mdi-file-table-box-multiple', link:'/category', show: User.loggedIn() },
+                { title: 'Login', icon: 'mdi-login' , link:'/login', show: !User.loggedIn()},
             ],
         }),
+        created() {
+            if( this.isLoggedIn ){
+                this.$router.push({name : 'forum'})
+            }
 
+            EventBus.$on('logout', () => {
+                User.logout()
+            })
+        },
         watch: {
             group () {
                 this.drawer = false
-            },
+            }
         },
     }
 </script>
