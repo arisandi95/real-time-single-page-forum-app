@@ -1,9 +1,12 @@
 <template>
     <div>
         <toolbar></toolbar>
-        <v-container fluid grid-list-md>
+        <v-container grid-list-md>
             <router-view></router-view>
+
+            <div style="margin-bottom: 10%"></div>
         </v-container>
+
         <app-footer></app-footer>
     </div>
 </template>

@@ -40,7 +40,7 @@ class User {
 
     user(){
         if(this.loggedIn()){
-            AppStorage.getUser()
+            return AppStorage.getUser()
         }
         return false
     }
@@ -51,6 +51,14 @@ class User {
             return payload.sub
         }
         return false
+    }
+
+    own(id){
+        return this.id() == id
+    }
+
+    isAdmin(){
+        return this.id() == 11 //DUMMY
     }
 }
 

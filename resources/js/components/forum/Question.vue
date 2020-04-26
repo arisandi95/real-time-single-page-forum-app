@@ -1,12 +1,16 @@
 <template>
-    <v-card shaped raised>
-        <v-card-title class="pb-3">Number 10</v-card-title>
-        <v-card-subtitle class="pb-6">Number 10</v-card-subtitle>
+    <v-card shaped class="mb-5">
+        <v-card-title class="pb-3">
+            <router-link :to="data.path">
+                {{ data.title }}
+            </router-link>
+        </v-card-title>
+        <v-card-subtitle class="pb-6">
+            {{ data.user }} said {{ data.created_at }}
+        </v-card-subtitle>
 
         <v-card-text class="text--primary">
-            <div>Whitehaven Beach</div>
-
-            <div>Whitsunday Island, Whitsunday Islands</div>
+            <div>{{data.body}}</div>
         </v-card-text>
 
     </v-card>
@@ -14,6 +18,7 @@
 
 <script>
     export default{
+        props:['data'],
         data(){
             return {
 

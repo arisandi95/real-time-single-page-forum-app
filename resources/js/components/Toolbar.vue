@@ -37,6 +37,18 @@
             bottom
             temporary
         >
+            <v-list-item>
+                <v-list-item-avatar>
+                    <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+                </v-list-item-avatar>
+
+                <v-list-item-content>
+                    <v-list-item-title> {{nameLogin}} </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
             <v-list
                 dense
                 rounded
@@ -57,13 +69,12 @@
 
             </v-list>
 
-            <template v-slot:append>
-                <div class="pa-2" v-show="logoutBtn">
-                    <router-link to="/logout">
-                        <v-btn block>Logout</v-btn>
-                    </router-link>
-                </div>
-            </template>
+
+            <div class="pa-10" v-show="logoutBtn">
+                <router-link to="/logout">
+                    <v-btn block>Logout</v-btn>
+                </router-link>
+            </div>
 
         </v-navigation-drawer>
     </div>
@@ -74,20 +85,17 @@
         data: () => ({
             isLoggedIn : User.loggedIn(),
             logoutBtn : User.loggedIn(),
+            nameLogin : User.user(),
             drawer: false,
             group: null,
             items: [
                 { title: 'Forum', icon: 'mdi-forum' , link:'/forum', show: true},
                 { title: 'Ask Question', icon: 'mdi-face-agent' , link:'/ask', show: User.loggedIn()},
-                { title: 'Category', icon: 'mdi-file-table-box-multiple', link:'/category', show: User.loggedIn() },
+                { title: 'Category', icon: 'mdi-file-table-box-multiple', link:'/category', show: User.isAdmin() },
                 { title: 'Login', icon: 'mdi-login' , link:'/login', show: !User.loggedIn()},
             ],
         }),
         created() {
-            if( this.isLoggedIn ){
-                this.$router.push({name : 'forum'})
-            }
-
             EventBus.$on('logout', () => {
                 User.logout()
             })

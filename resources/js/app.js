@@ -7,14 +7,22 @@
 require('./bootstrap');
 
 import Vuetify from 'vuetify';
+import VueSimplemde from 'vue-simplemde'
+import 'simplemde/dist/simplemde.min.css'
 import router from './router/router'
 import User from './helpers/user'
+import md from 'marked'
 
 window.Vue = require('vue');
 window.User = User
+window.md = md
 window.EventBus = new Vue()
 Vue.use(Vuetify);
+Vue.component('vue-simplemde', VueSimplemde)
 
+//Auto Set Header JWT token
+let JWTToken = `Bearer ${localStorage.getItem('token')}`
+window.axios.defaults.headers.common['Authorization'] = JWTToken;
 
 /**
  * The following block of code may be used to automatically register your
