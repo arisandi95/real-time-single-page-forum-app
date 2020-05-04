@@ -14,8 +14,8 @@
                     <!--<v-list-item-action>-->
                         <!--<v-list-item-action-text v-text="reply.created_at"></v-list-item-action-text>-->
                     <!--</v-list-item-action>-->
-                    <div v-if="isOwn && !isEditing">
-                        <v-list-item-icon>
+                    <div v-if="!isEditing">
+                        <v-list-item-icon v-if="isOwn">
                             <v-btn @click="editReply">
                                 <v-icon color="teal">mdi-pencil</v-icon>
                             </v-btn>
@@ -23,6 +23,7 @@
                                 <v-icon color="red">mdi-trash-can</v-icon>
                             </v-btn>
                         </v-list-item-icon>
+                        <like :component="data"></like>
                     </div>
 
                 </template>
@@ -35,9 +36,10 @@
 
 <script>
     import EditReply from './EditReply'
+    import Like from '../likes/Like'
 
     export default{
-        components:{EditReply},
+        components:{EditReply, Like},
         props:['data', 'question'],
         data(){
             return {

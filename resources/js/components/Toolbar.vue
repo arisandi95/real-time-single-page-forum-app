@@ -29,6 +29,8 @@
             <v-btn icon>
                 <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
+
+            <app-notification v-if="isLoggedIn"></app-notification>
         </v-app-bar>
 
         <v-navigation-drawer
@@ -81,7 +83,9 @@
 </template>
 
 <script>
+    import AppNotification from './AppNotification'
     export default{
+        components:{AppNotification},
         data: () => ({
             isLoggedIn : User.loggedIn(),
             logoutBtn : User.loggedIn(),
