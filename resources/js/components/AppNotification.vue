@@ -51,6 +51,11 @@
         created(){
             if(User.loggedIn()){
                 this.getNotification()
+
+                Echo.private('App.User.' + User.id())
+                    .notification((notification) => {
+                        this.getNotification()
+                    });
             }
         },
         computed: {

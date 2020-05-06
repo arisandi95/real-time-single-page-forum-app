@@ -50,7 +50,22 @@
                 EventBus.$on('SubmitUpdateSuccess', () => {
                     this.fetchReplies()
                 })
-            }
+
+                Echo.private('App.User.' + User.id())
+                    .notification((notification) => {
+                        this.fetchReplies()
+                    });
+
+                Echo.channel('deleteReplyChannel')
+                    .listen('DeleteReplyEvent', (e) => {
+                        for (var i = 0; i < this.replies.length; i++) {
+                            if ( this.replies[i]['id'] == e.id ) {
+                                this.fetchReplies()
+                            }
+                        }
+                    });
+            },
+
         },
         created(){
             this.replies = this.question.replies

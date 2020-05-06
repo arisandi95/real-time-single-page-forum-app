@@ -1,0 +1,72 @@
+#Section 2
+- pada file migrasi replies , menggunakan ->onDelete('cascade'); agar jika parent
+    didelete maka child juga terhapus
+
+#Section 5
+- ada function latest() untuk get data terbaru
+- Route model binding, pakai fungsi getRouteKeyName()
+- Guarded pada model untuk blaklist, fillable whitelist
+
+#Section 10
+- Buat middleware JWT
+
+#Section 11
+install vuetify
+https://medium.com/@ifkas/how-to-install-vuetify-2-in-laravel-6-863e41ddf8d2
+
+# Section  19
+notification : create notification, artisan table notif, migrate
+di model User ada trait Notifiable bisa di pake buat cek notif, cek di route
+//laravel 5.4 kalo laravel 6 beda lagi.. cek di controller
+ 'read' => auth()->user()->readNotifications(),
+        'unread' => auth()->user()->unReadNotifications(),
+
+
+#Section 20
+install package pusher
+Create pusher app di web, dapetin key segala macem
+npm install --save laravel-echo pusher-js , ini buat listener nya
+uncomment laravel echo di js/bootstrap.js
+uncomment broadcast di app.php Application Service Providers...
+kemudian, di EventServiceProvider.php tambah di $listen nanti itu di generate dengan cara
+php artisan event:generate
+
+# cara pake event / broadcast :
+broadcast(new ShippingStatusUpdated($update))->toOthers();
+di EventListener nya implements ShouldBroadcast
+di EventListener : broadcastOn() bikin channel
+di routes/channels.php bikin channel routing
+di Vue bikin listener pake echo :
+    Echo.channel('namaChannel')
+        .listen('namaEvent', (e) => {
+            console.log(e);
+        });
+
+
+       SELEESAAAI... cek di web pusher
+
+ mix sama notification ? bisaa....
+ di Notification tambah : public function toBroadcast($notifiable)
+                          {
+                              return new BroadcastMessage([
+                                  'invoice_id' => $this->invoice->id,
+                                  'amount' => $this->invoice->amount,
+                              ]);
+                          }
+ terus di VIA tambah 'broadcast'
+
+ di vue nya tambah listener dan jangan lupa di LaraECHO boostrap.js tambah auth key
+ Listener nya :
+  Echo.private('App.User.' + User.id())
+                     .notification((notification) => {
+                         console.log(notification, 'sands');
+                     });
+ Auth key set nya :
+    auth:{
+         headers:{
+             Authorization:`Bearer ${localStorage.getItem('token')}`
+         }
+     }
+
+
+NEXT 92

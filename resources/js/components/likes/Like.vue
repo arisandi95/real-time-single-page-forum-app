@@ -48,6 +48,12 @@
 
         },
         created(){
+            Echo.channel('likeChannel')
+                .listen('LikeEvent', (e) => {
+                    if (this.component.id == e.id) {
+                        (e.type == 1) ? this.counter++ : this.counter--
+                    }
+                });
         },
         computed:{
             color(){
